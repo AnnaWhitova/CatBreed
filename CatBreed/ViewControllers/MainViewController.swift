@@ -9,7 +9,7 @@ import UIKit
 
 final class MainViewController: UITableViewController {
     
-    let url = URL(string: "https://catfact.ninja/breeds")!
+   private let url = URL(string: "https://catfact.ninja/breeds")!
 
     override func viewDidLoad() {
         super.viewDidLoad()
