@@ -15,6 +15,10 @@ struct Breed: Decodable {
     let pattern: String
 }
 
+struct BreedsResponse: Decodable {
+    let data: [Breed]
+}
+
 struct Link: Decodable {
     let url: String?
     let label: String
