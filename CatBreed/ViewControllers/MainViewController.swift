@@ -9,42 +9,45 @@ import UIKit
 
 final class MainViewController: UITableViewController {
     
-   private let url = URL(string: "https://catfact.ninja/breeds")!
+    private let url = URL(string: "https://catfact.ninja/breeds")!
+    private let networkManager = NetworkManager.shared
+    private var breeds: [Breed] = []
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        fetchBreed()
+        fetchBreeds()
     }
 
     // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 0
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return breeds.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "breedCell", for: indexPath)
+        guard let cell = cell as? BreedCell else {  return UITableViewCell() }
+        let breed = breeds[indexPath.row]
+        cell.configure(with: breed)
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
 // MARK: - Networking
 extension MainViewController {
-    private func fetchBreed(){
-        URLSession.shared.dataTask(with: url) { data, _, error in
-            guard let data else {
-                print(error?.localizedDescription ?? "No error description")
-                return
+    private func fetchBreeds(){
+        networkManager.fetchBreeds(from: url) { [weak self] result in
+            switch result {
+            case .success(let breeds):
+                self?.breeds = breeds
+                self?.tableView.reloadData()
+            case .failure(let error):
+                print(error)
             }
-            
-            let decoder = JSONDecoder()
-            
-            do {
-                let breedInfo = try decoder.decode(CatBreedInfo.self, from: data)
-                print(breedInfo)
-            } catch let error {
-             print(error)
-            }
-       
-        }.resume()
+        }
     }
 }

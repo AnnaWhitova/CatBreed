@@ -8,16 +8,18 @@
 import UIKit
 
 class BreedCell: UITableViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    
+    @IBOutlet var breedLabel: UILabel!
+    @IBOutlet var countryLabel: UILabel!
+    @IBOutlet var originLabel: UILabel!
+    @IBOutlet var coatLabel: UILabel!
+    @IBOutlet var patternLabel: UILabel!
+    
+    func configure(with breed: Breed) {
+        breedLabel.text = "Breed: \(breed.breed)"
+        countryLabel.text = "Country: \(breed.country)"
+        originLabel.text = "Origin: \(breed.origin)"
+        coatLabel.text = "Coat: \(breed.coat)"
+        patternLabel.text = "Pattern: \(breed.pattern)"
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }
