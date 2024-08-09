@@ -9,21 +9,27 @@ import UIKit
 
 class NewBreedViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    @IBOutlet var breedTextField: UITextField!
+    @IBOutlet var countryTextField: UITextField!
+    @IBOutlet var originTextField: UITextField!
+    @IBOutlet var coatTextField: UITextField!
+    @IBOutlet var patternTextField: UITextField!
+    
+    weak var delegate: NewBreedViewControllerDelegate?
+    
+    @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
+        let breed = Breed(
+            breed: breedTextField.text ?? "",
+            country: countryTextField.text ?? "",
+            origin: originTextField.text ?? "",
+            coat: coatTextField.text ?? "",
+            pattern: patternTextField.text ?? ""
+        )
+        delegate?.createBreed(breed)
+        dismiss(animated: true)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func cancelButtonPressed(_ sender: Any) {
+        dismiss(animated: true)
     }
-    */
-
 }
