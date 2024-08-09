@@ -7,16 +7,19 @@
 
 import Foundation
 
-struct Breed: Decodable {
+struct Breed: Codable {
     let breed: String
     let country: String
     let origin: String
     let coat: String
     let pattern: String
+
 }
+    
 
 struct BreedsResponse: Decodable {
     let data: [Breed]
+    
 }
 
 struct Link: Decodable {
