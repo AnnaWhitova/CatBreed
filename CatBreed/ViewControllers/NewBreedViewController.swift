@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NewBreedViewController: UIViewController {
+final class NewBreedViewController: UIViewController {
 
     @IBOutlet var breedTextField: UITextField!
     @IBOutlet var countryTextField: UITextField!
