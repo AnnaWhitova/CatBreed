@@ -13,7 +13,27 @@ struct Breed: Codable {
     let origin: String
     let coat: String
     let pattern: String
-
+    
+    init(breed: String, country: String, origin: String, coat: String, pattern: String) {
+        self.breed = breed
+        self.country = country
+        self.origin = origin
+        self.coat = coat
+        self.pattern = pattern
+    }
+    
+    init(breedData: [String: Any]) {
+        breed = breedData["breed"] as? String ?? ""
+        country = breedData["country"] as? String ?? ""
+        origin = breedData["origin"] as? String ?? ""
+        coat = breedData["coat"] as? String ?? ""
+        pattern = breedData["pattern"] as? String ?? ""
+    }
+    
+    static func getBreed(from jsonValue: Any) -> [Breed] {
+        guard let breedsData = jsonValue as? [[String: Any]] else { return [] }
+        return breedsData.map { Breed(breedData: $0) }
+    }
 }
     
 
