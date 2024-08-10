@@ -32,14 +32,13 @@ final class NetworkManager {
             .validate()
             .responseJSON { dataResponse in
                 switch dataResponse.result {
-                case .success(let jsonValue):
-                    do {
-                        let data = try JSONSerialization.data(withJSONObject: jsonValue)
-                        let breedsResponse = try JSONDecoder().decode(BreedsResponse.self, from: data)
-                        completion(.success(breedsResponse.data))
-                    }
-                    catch {
-                        completion(.failure(error))
+                case .success(let value):
+                    if let json = value as? [String: Any],
+                       let dataArray = json["data"] as? [[String: Any]] {
+                        let breeds = Breed.getBreed(from: dataArray)
+                        completion(.success(breeds))
+                    } else {
+                        completion(.failure(NSError(domain: "Invalid Data", code: -1, userInfo: nil)))
                     }
                 case .failure(let error):
                     completion(.failure(error))
